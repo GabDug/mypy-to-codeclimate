@@ -1,14 +1,11 @@
 [project]
 name = "mypy-to-codeclimate"
-version = "0.1.0"
 description = "Standalone tool to convert a mypy output to CodeQuality JSON, for Gitlab or other CIs."
-authors = [
-    {name = "Gabriel Dugny", email = "mypy-to-codeclimate@dugny.me"},
-]
+authors = [{ name = "Gabriel Dugny", email = "mypy-to-codeclimate@dugny.me" }]
 dependencies = []
 requires-python = ">=3.8"
 readme = "README.md"
-license = {text = "MIT"}
+license = { text = "MIT" }
 classifiers = [
     "Development Status :: 3 - Alpha",
     "Environment :: Console",
@@ -23,22 +20,26 @@ classifiers = [
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
 ]
+dynamic = ["version"]
 
 [project.urls]
 Repository = "https://github.com/GabDug/mypy-to-codeclimate.git"
 
 
 [project.scripts]
-mypy-to-codeclimate= "mypy_to_codeclimate:main"
+mypy-to-codeclimate = "mypy_to_codeclimate:main"
 
 [build-system]
 requires = ["pdm-backend"]
 build-backend = "pdm.backend"
 
 [tool.pdm]
-plugins = [
-    "sync-pre-commit-lock"
-]
+plugins = ["sync-pre-commit-lock"]
+
+[tool.pdm.version]
+source = "scm"
+write_to = "mypy_to_codeclimate/_version.py"
+write_template = "__version__: str = \"{}\"\n"
 
 [tool.pdm.dev-dependencies]
 dev = [
@@ -47,18 +48,71 @@ dev = [
     "mypy>=1.6.1",
     "pytest>=7.4.3",
     "pytest-cov>=4.1.0",
+    "pytest-mock>=3.12.0",
 ]
 
 [tool.pdm.scripts]
-fmt = {cmd="black .", help="Run black formatter"}
+fmt = { cmd = "black .", help = "Run black formatter" }
 test = "pytest"
-test-cov = {cmd="pytest --junitxml=junit/test-results.xml --cov --cov-report=xml --cov-report=html --cov-report=term-missing", help="Run tests with coverage"}
+test-cov = { cmd = "pytest --junitxml=junit/test-results.xml --cov --cov-report=xml --cov-report=html --cov-report=term-missing", help = "Run tests with coverage" }
 lint = "pre-commit run --all-files"
-lint-mypy = {cmd="mypy src", help="Run mypy type checker"}
-lint-ruff = {cmd="ruff .", help="Run ruff linter"}
+lint-mypy = { cmd = "mypy src", help = "Run mypy type checker" }
+lint-ruff = { cmd = "ruff .", help = "Run ruff linter" }
+
+[tool.black]
+line-length = 120
 
 [tool.ruff]
 line-length = 120
 ignore = ["E501"]
+extend-select = [
+    "E",
+    "F",
+    "W",
+    "TCH",
+    "I",
+    "Q000",
+    "TCH",
+    "I001",
+    "S",
+    "T",
+    "PTH",
+    "PYI",
+    "RET",
+    "D209",
+    "D202",
+    "EM101",
+]
+[tool.ruff.per-file-ignores]
+"tests/*" = ["S101", "PTH"]
 [tool.ruff.pydocstyle]
 convention = "google"
+
+[tool.mypy]
+files = ["src"]
+strict = true
+strict_concatenate = true
+warn_unreachable = true
+warn_no_return = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests/*"]
+
+[tool.coverage.run]
+branch = true
+omit = ["*/tests/*"]
+include = ["src/*"]
+
+[tool.coverage.report]
+fail_under = 80.0
+
+exclude_lines = [
+    "def __repr__",
+    "if TYPE_CHECKING:",
+    "if settings.DEBUG",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "if __name__ == .__main__.:",
+    'class .*\bProtocol\):',
+    '@(abc\.)?abstractmethod]',
+]

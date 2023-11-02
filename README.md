@@ -32,7 +32,11 @@ You can replace the filename by `-` to read from stdin, write to stdout, or both
 mypy <command_args> | mypy-to-codeclimate - mypy-codequality.json
 ```
 
-Program will exit with code 1 if there are errors in the mypy output, and 0 otherwise.
+### Return codes
+
+- `0`: Success, no mypy errors
+- `1`: Mypy errors, codeclimate report generated
+- `2`: Mypy crash (unexpected error) or mypy-to-codeclimate error (invalid arguments, invalid input file, etc.)
 
 ## Installation
 
