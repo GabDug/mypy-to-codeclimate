@@ -5,7 +5,7 @@
 groups = ["default", "dev"]
 strategy = ["cross_platform"]
 lock_version = "4.4"
-content_hash = "sha256:57aac8592285cd775b1c8ab46e4d91ff943a52ce17087da9c364fd3389941f5f"
+content_hash = "sha256:b922bdf2ce709e734313519d473b4e273aa7f599d28b984442bd9b42f0cc0bdf"
 
 [[package]]
 name = "black"

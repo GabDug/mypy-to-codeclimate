@@ -7,11 +7,16 @@ import sys
 from enum import Enum
 from hashlib import md5
 from pathlib import Path
-from typing import Any, Callable, NoReturn
-
-from typing_extensions import Literal, NotRequired, TypedDict
+from typing import TYPE_CHECKING, Any, Callable, Literal, NoReturn, TypedDict
 
 from mypy_to_codeclimate._version import __version__
+
+if TYPE_CHECKING:
+    if sys.version_info < (3, 11):
+        from typing_extensions import NotRequired
+    else:
+        from typing import NotRequired
+
 
 MYPY_OUTPUT_PATTERN = r"^(?P<file>[^\n]+?):(?P<line>\d+):?((?P<column>\d+):)? (?P<error_level>\w+):\s*(?P<message>.+?)(?:\s+\[(?P<rule>[a-z\-]*)\])?$"
 
