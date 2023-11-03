@@ -8,7 +8,8 @@
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 [![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
 
-Standalone tool to convert Mypy output to Code Climate format. It does not require the Code Climate CLI and is dependency-free: great for CI/CD.
+Standalone tool to convert Mypy output to Code Climate format. It does not require the Code Climate CLI and is dependency-free: great for CI/CD. Keeps sane exit codes for your CI.
+Additionally, can be used as a Python library.
 
 ## Why Code Climate
 
@@ -38,6 +39,12 @@ mypy <command_args> | mypy-to-codeclimate - mypy-codequality.json
 - `1`: Mypy errors, codeclimate report generated
 - `2`: Mypy crash (unexpected error) or mypy-to-codeclimate error (invalid arguments, invalid input file, etc.)
 
+
+### Options
+
+- `--version`: Print version and exit
+- `--help`: Print help and exit
+
 ## Installation
 
 ```bash
@@ -53,12 +60,6 @@ pip install mypy-to-codeclimate
 Tested against Mypy 1.6.1. It should work with any version of mypy that outputs the same format.
 
 Please open an issue if you find a version of mypy that is not supported.
-
-### Python versions
-
-Tested against Python 3.11. It should work with any actively supported version of Python.
-
-Please open an issue if you have any problem with a specific version of Python.
 
 ## Example usage in Gitlab CI
 
